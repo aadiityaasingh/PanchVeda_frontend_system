@@ -10,7 +10,7 @@ const Login = () => {
 
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ const Login = () => {
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -33,53 +33,64 @@ const Login = () => {
       login(data.user, data.token);
 
       navigate("/dashboard");
-
     } catch (error) {
-      alert(
-        error?.response?.data?.message ||
-        "Login failed"
-      );
+      console.log(error);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-xl shadow-md w-96"
-      >
-        <h1 className="text-2xl font-bold mb-6 text-center">
-          Panchakarma Login
+    <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+      <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg">
+        <h1 className="text-3xl font-bold text-center mb-2">
+          Panchakarma
         </h1>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full border p-3 rounded mb-4"
-        />
+        <p className="text-center text-gray-500 mb-8">
+          Management System
+        </p>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          className="w-full border p-3 rounded mb-4"
-        />
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block mb-2">
+              Email
+            </label>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-3 rounded"
-        >
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full border rounded-lg p-3"
+              placeholder="Enter email"
+            />
+          </div>
+
+          <div className="mb-6">
+            <label className="block mb-2">
+              Password
+            </label>
+
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full border rounded-lg p-3"
+              placeholder="Enter password"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
+          >
+            {loading ? "Logging In..." : "Login"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

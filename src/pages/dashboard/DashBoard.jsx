@@ -1,10 +1,16 @@
+import DashboardLayout from "../../components/layout/DashboardLayout";
+
 const Dashboard = () => {
   return (
-    <div className="p-6">
+    <DashboardLayout>
       <h1 className="text-3xl font-bold">
         Panchakarma Dashboard
       </h1>
-    </div>
+
+      <p className="mt-2 text-gray-600">
+        Welcome to the management system.
+      </p>
+    </DashboardLayout>
   );
 };
 
