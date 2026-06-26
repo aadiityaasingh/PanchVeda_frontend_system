@@ -12,6 +12,7 @@ import BillList from "./pages/billing/BillList";
 import AddPatient from "./pages/patients/AddPatient";
 import PatientHistory from "./pages/patients/PatientHistory";
 import AddTherapy from "./pages/therapies/AddTherapy";
+import CreateTherapyPlan from "./pages/plans/CreateTherapyPlan";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
       <Route path="/patients/add" element={<AddPatient />} />
       <Route path="/patients/:id" element={<PatientHistory />} />
       <Route path="/therapies/add" element={<AddTherapy />} />
+      <Route path="/plans/add" element={<CreateTherapyPlan />} />
     </Routes>
   );
 };
