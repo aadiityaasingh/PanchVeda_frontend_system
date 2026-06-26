@@ -1,24 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import therapyData from "../../assets/therapyData";
+import Button from "../../components/common/Button";
+import PageHeader from "../../components/common/PageHeader";
 
 const TherapyList = () => {
   const navigate = useNavigate();
 
   return (
     <DashboardLayout>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">
-          Therapies
-        </h1>
-
-        <button
-          onClick={() => navigate("/therapies/add")}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-        >
-          + Add Therapy
-        </button>
-      </div>
+      <PageHeader
+        title="Therapies"
+        subtitle="Manage available therapies"
+        action={
+          <Button onClick={() => navigate("/therapies/add")}>
+            + Add Therapy
+          </Button>
+        }
+      />
 
       <div className="bg-white rounded-xl shadow overflow-hidden">
         <table className="w-full">
@@ -36,12 +35,8 @@ const TherapyList = () => {
               <tr key={therapy.id} className="border-t">
                 <td className="p-4">{therapy.name}</td>
                 <td className="p-4">{therapy.category}</td>
-                <td className="p-4">
-                  {therapy.duration} Days
-                </td>
-                <td className="p-4">
-                  ₹{therapy.cost}
-                </td>
+                <td className="p-4">{therapy.duration} Days</td>
+                <td className="p-4">₹{therapy.cost}</td>
               </tr>
             ))}
           </tbody>
