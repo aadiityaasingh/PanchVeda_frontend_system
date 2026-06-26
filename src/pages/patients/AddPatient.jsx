@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DashboardLayout from "../../components/layout/DashboardLayout";
+import Select from "../../components/common/Select";
 
 const AddPatient = () => {
   const [formData, setFormData] = useState({
@@ -30,9 +31,7 @@ const AddPatient = () => {
 
   return (
     <DashboardLayout>
-      <h1 className="text-3xl font-bold mb-6">
-        Add Patient
-      </h1>
+      <h1 className="text-3xl font-bold mb-6">Add Patient</h1>
 
       <form
         onSubmit={handleSubmit}
@@ -47,17 +46,26 @@ const AddPatient = () => {
           className="w-full border p-3 rounded-lg"
         />
 
-        <select
+        <Select
+          label="Gender"
           name="gender"
           value={formData.gender}
           onChange={handleChange}
-          className="w-full border p-3 rounded-lg"
-        >
-          <option value="">Select Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
+          options={[
+            {
+              value: "male",
+              label: "Male",
+            },
+            {
+              value: "female",
+              label: "Female",
+            },
+            {
+              value: "other",
+              label: "Other",
+            },
+          ]}
+        />
 
         <input
           type="date"

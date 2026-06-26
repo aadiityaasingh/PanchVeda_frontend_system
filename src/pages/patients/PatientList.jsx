@@ -3,75 +3,82 @@ import { useNavigate } from "react-router-dom";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 
 import patientData from "../../assets/patientData";
+import Button from "../../components/common/Button";
+import Input from "../../components/common/Input";
+import PageHeader from "../../components/common/PageHeader";
+import Table from "../../components/common/Table";
+import Modal from "../../components/common/Modal";
 
 const PatientList = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
+  const [openModal, setOpenModal] = useState(false);
 
   const filteredPatients = patientData.filter((patient) =>
     patient.fullName.toLowerCase().includes(search.toLowerCase()),
   );
 
+  const columns = [
+    {
+      header: "Name",
+      key: "fullName",
+    },
+    {
+      header: "Gender",
+      key: "gender",
+    },
+    {
+      header: "Phone",
+      key: "phone",
+    },
+    {
+      header: "DOB",
+      key: "dob",
+    },
+    {
+      header: "Action",
+      key: "action",
+      render: (patient) => (
+        <Button
+          variant="outline"
+          onClick={() => navigate(`/patients/${patient.id}`)}
+        >
+          View
+        </Button>
+      ),
+    },
+  ];
+
   return (
     <DashboardLayout>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Patients</h1>
+      <PageHeader
+        title="Patients"
+        subtitle="Manage all registered patients"
+        action={
+          <Button onClick={() => setOpenModal(true)}>+ Add Patient</Button>
+        }
+      />
 
-        <button
-          onClick={() => navigate("/patients/add")}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-        >
-          + Add Patient
-        </button>
-      </div>
-
-      <input
-        type="text"
+      <Input
         placeholder="Search Patient..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full p-3 border rounded-lg mb-6"
+        className="mb-6"
       />
 
       <div className="bg-white rounded-xl shadow overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-slate-100">
-            <tr>
-              <th className="p-4 text-left">Name</th>
+        <Modal
+          isOpen={openModal}
+          onClose={() => setOpenModal(false)}
+          title="Add Patient"
+        >
+          <p className="mb-4">Our Add Patient form will come here later.</p>
 
-              <th className="p-4 text-left">Gender</th>
-
-              <th className="p-4 text-left">Phone</th>
-
-              <th className="p-4 text-left">DOB</th>
-
-              <th className="p-4 text-left">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filteredPatients.map((patient) => (
-              <tr key={patient.id} className="border-t">
-                <td className="p-4">{patient.fullName}</td>
-
-                <td className="p-4">{patient.gender}</td>
-
-                <td className="p-4">{patient.phone}</td>
-
-                <td className="p-4">{patient.dob}</td>
-
-                <td className="p-4">
-                  <button
-                    onClick={() => navigate(`/patients/${patient.id}`)}
-                    className="text-blue-600"
-                  >
-                    View
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          <Button variant="danger" onClick={() => setOpenModal(false)}>
+            Close
+          </Button>
+        </Modal>
+        <Table columns={columns} data={filteredPatients} />
       </div>
     </DashboardLayout>
   );
