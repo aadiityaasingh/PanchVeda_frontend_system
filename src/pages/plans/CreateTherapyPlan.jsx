@@ -28,6 +28,12 @@ const CreateTherapyPlan = () => {
   });
 
   const therapies = watch("therapies");
+  const totalCost = therapies?.reduce((total, item) => {
+    const days = Number(item.durationDays) || 0;
+    const cost = Number(item.costPerDay) || 0;
+
+    return total + days * cost;
+  }, 0);
   useEffect(() => {
     therapies.forEach((therapy, index) => {
       const selectedTherapy = therapyData.find(
@@ -131,6 +137,13 @@ const CreateTherapyPlan = () => {
           >
             + Add Therapy
           </Button>
+          <div className="mt-6 bg-slate-100 p-5 rounded-lg">
+            <h2 className="text-xl font-semibold">Estimated Total</h2>
+
+            <p className="text-3xl font-bold text-green-600 mt-2">
+              ₹ {totalCost}
+            </p>
+          </div>
         </div>
 
         <div className="mt-6">

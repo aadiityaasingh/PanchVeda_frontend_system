@@ -46,8 +46,8 @@ const TherapyPlanList = () => {
     {
       header: "Action",
       key: "action",
-      render: () => (
-        <Button variant="outline">
+      render: (plan) => (
+        <Button variant="outline" onClick={() => navigate(`/plans/${plan.id}`)}>
           View
         </Button>
       ),
@@ -56,24 +56,17 @@ const TherapyPlanList = () => {
 
   return (
     <DashboardLayout>
-
       <PageHeader
         title="Therapy Plans"
         subtitle="Manage therapy plans"
         action={
-          <Button
-            onClick={() => navigate("/plans/add")}
-          >
+          <Button onClick={() => navigate("/plans/add")}>
             + Create Therapy Plan
           </Button>
         }
       />
 
-      <Table
-        columns={columns}
-        data={therapyPlans}
-      />
-
+      <Table columns={columns} data={therapyPlans} />
     </DashboardLayout>
   );
 };
