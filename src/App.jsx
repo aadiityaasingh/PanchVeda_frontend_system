@@ -13,6 +13,9 @@ import AddPatient from "./pages/patients/AddPatient";
 import PatientHistory from "./pages/patients/PatientHistory";
 import AddTherapy from "./pages/therapies/AddTherapy";
 import CreateTherapyPlan from "./pages/plans/CreateTherapyPlan";
+import TherapyPlanDetails from "./pages/plans/TherapyPlanDetails";
+import CreateUser from "./pages/users/CreateUser.";
+import Unauthorized from "./pages/errors/Unauthorized";
 
 const App = () => {
   return (
@@ -23,15 +26,54 @@ const App = () => {
 
       <Route path="/dashboard" element={<Dashboard />} />
 
-      <Route path="/patients" element={<PatientList />} />
-      <Route path="/therapies" element={<TherapyList />} />
+      <Route
+        path="/patients"
+        element={
+          <ProtectedRoute roles={["admin", "doctor"]}>
+            <PatientList />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/therapies"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <TherapyList />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/plans" element={<TherapyPlanList />} />
-      <Route path="/sessions" element={<SessionList />} />
+      <Route
+        path="/sessions"
+        element={
+          <ProtectedRoute roles={["admin", "doctor", "therapist"]}>
+            <SessionList />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/bills" element={<BillList />} />
       <Route path="/patients/add" element={<AddPatient />} />
       <Route path="/patients/:id" element={<PatientHistory />} />
       <Route path="/therapies/add" element={<AddTherapy />} />
       <Route path="/plans/add" element={<CreateTherapyPlan />} />
+      <Route path="/plans/:id" element={<TherapyPlanDetails />} />
+      <Route
+        path="/bills"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <BillList />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <ProtectedRoute roles={["admin"]}>
+            <CreateUser />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/unauthorized" element={<Unauthorized />} />
     </Routes>
   );
 };
