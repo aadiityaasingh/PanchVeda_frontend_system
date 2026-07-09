@@ -1,22 +1,24 @@
 import { createContext, useContext, useState } from "react";
 
+import { loginUser } from "../api/authApi";
+
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
-  const login = (userData, token) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(userData));
+  const login = async (data) => {
+    const response = await loginUser(data);
 
-    setUser(userData);
+    localStorage.setItem("token", response.token);
+
+    localStorage.setItem("user", JSON.stringify(response.user));
+
+    setUser(response.user);
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.clear();
 
     setUser(null);
   };
@@ -25,9 +27,10 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+
         login,
+
         logout,
-        isAuthenticated: !!user,
       }}
     >
       {children}
