@@ -1,14 +1,15 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState } from "react";
 
-import { loginUser } from "../api/authApi";
+import { loginUser, setupInitialAdmin } from "../api/authApi";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
-  const login = async (data) => {
-    const response = await loginUser(data);
+  const login = async (credentials) => {
+    const response = await loginUser(credentials);
 
     localStorage.setItem("token", response.token);
 
@@ -18,9 +19,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.clear();
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
     setUser(null);
+  };
+
+  const completeSetup = async (details) => {
+    const response = await setupInitialAdmin(details);
+    localStorage.setItem("token", response.token);
+    localStorage.setItem("user", JSON.stringify(response.user));
+    setUser(response.user);
   };
 
   return (
@@ -31,6 +40,7 @@ export const AuthProvider = ({ children }) => {
         login,
 
         logout,
+        completeSetup,
       }}
     >
       {children}

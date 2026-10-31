@@ -1,24 +1,61 @@
 import { useAuth } from "../../context/AuthContext";
+import Badge from "../common/Badge";
+import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
+  const roleBadge = (role) => {
+    switch (role) {
+      case "admin":
+        return <Badge variant="danger">ADMIN</Badge>;
+      case "doctor":
+        return <Badge variant="info">DOCTOR</Badge>;
+      case "therapist":
+        return <Badge variant="success">THERAPIST</Badge>;
+      default:
+        return <Badge variant="default">STAFF</Badge>;
+    }
+  };
 
   return (
-    <div className="h-16 bg-white shadow px-6 flex justify-between items-center">
-      <h2 className="text-xl font-semibold">
-        Dashboard
-      </h2>
-
-      <div>
-        <p className="font-medium">
-          {user?.fullName || "Guest"}
-        </p>
-
-        <p className="text-sm text-gray-500">
-          {user?.role || ""}
-        </p>
+    <header className="h-16 bg-white border-b border-slate-200 px-6 flex justify-between items-center sticky top-0 z-20">
+      <div className="flex items-center gap-3">
+        <h1 className="text-lg font-bold text-slate-800">
+          Panchveda Portal
+        </h1>
       </div>
-    </div>
+
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 border-r border-slate-200 pr-4">
+          <div className="w-9 h-9 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-sm shadow-sm">
+            {user?.fullName?.charAt(0)?.toUpperCase() || <FaUserCircle />}
+          </div>
+          <div className="hidden sm:block text-right">
+            <p className="text-sm font-semibold text-slate-900 leading-tight">
+              {user?.fullName || "Staff Member"}
+            </p>
+            <div className="mt-0.5">{roleBadge(user?.role)}</div>
+          </div>
+        </div>
+
+        <button
+          onClick={handleLogout}
+          title="Sign out"
+          className="flex items-center gap-2 text-sm text-slate-600 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition"
+        >
+          <FaSignOutAlt />
+          <span className="hidden md:inline">Logout</span>
+        </button>
+      </div>
+    </header>
   );
 };
 

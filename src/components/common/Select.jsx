@@ -4,6 +4,7 @@ const Select = ({
   options = [],
   register,
   className = "",
+  ...props
 }) => {
   return (
     <div className="space-y-2">
@@ -15,6 +16,7 @@ const Select = ({
 
       <select
         {...(register ? register(name) : {})}
+        {...props}
         className={`
           w-full
           rounded-lg

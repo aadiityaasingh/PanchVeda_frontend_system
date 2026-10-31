@@ -7,6 +7,7 @@ const Input = ({
   disabled = false,
   required = false,
   className = "",
+  ...props
 }) => {
   return (
     <div className="space-y-2">
@@ -22,6 +23,7 @@ const Input = ({
         disabled={disabled}
         required={required}
         {...(register ? register(name) : {})}
+        {...props}
         className={`
           w-full
           rounded-lg
