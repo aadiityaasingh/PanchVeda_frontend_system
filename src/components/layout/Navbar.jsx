@@ -1,6 +1,6 @@
 import { useAuth } from "../../context/AuthContext";
 import Badge from "../common/Badge";
-import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { FaUserCircle, FaSignOutAlt, FaLeaf } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -27,7 +27,10 @@ const Navbar = () => {
 
   return (
     <header className="h-16 bg-white border-b border-slate-200 px-6 flex justify-between items-center sticky top-0 z-20">
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2.5">
+        <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-sm shadow-sm">
+          <FaLeaf />
+        </div>
         <h1 className="text-lg font-bold text-slate-800">
           Panchveda Portal
         </h1>

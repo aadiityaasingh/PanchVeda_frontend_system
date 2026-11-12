@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { getSetupStatus } from "../../api/authApi";
 import { apiError } from "../../utils/formatters";
+import { FaLeaf } from "react-icons/fa";
 
 const InitialSetup = () => {
   const navigate = useNavigate();
@@ -38,9 +39,14 @@ const InitialSetup = () => {
   return (
     <main className="min-h-screen bg-gradient-to-br from-emerald-950 via-teal-900 to-slate-900 flex items-center justify-center p-5">
       <section className="w-full max-w-md rounded-3xl bg-white p-8 shadow-2xl">
-        <p className="text-emerald-700 font-semibold tracking-widest text-xs uppercase">
-          Panchveda - First-time setup
-        </p>
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-base shadow-sm">
+            <FaLeaf />
+          </div>
+          <span className="text-emerald-700 font-bold tracking-widest text-xs uppercase">
+            Panchveda
+          </span>
+        </div>
         <h1 className="mt-2 text-3xl font-bold text-slate-900">
           Create the admin account
         </h1>
