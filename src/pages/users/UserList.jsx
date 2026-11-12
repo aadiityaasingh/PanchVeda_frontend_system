@@ -9,6 +9,14 @@ import Input from "../../components/common/Input";
 import { createUser, getUsers, toggleUserStatus } from "../../api/userApi";
 import { apiError, formatDate } from "../../utils/formatters";
 
+const DEMO_EMAILS = [
+  "admin@panchveda.com",
+  "dr.ananya@panchveda.com",
+  "dr.rajesh@panchveda.com",
+  "vikram@panchveda.com",
+  "sneha@panchveda.com"
+];
+
 const initialForm = { fullName: "", email: "", password: "", role: "doctor" };
 
 const UserList = () => {
@@ -127,29 +135,49 @@ const UserList = () => {
     {
       header: "Status",
       key: "isActive",
-      render: (u) => (
-        <Badge variant={u.isActive ? "success" : "default"}>
-          {u.isActive ? "Active" : "Inactive"}
-        </Badge>
-      ),
+      render: (u) => {
+        const isDemo = DEMO_EMAILS.includes(u.email?.toLowerCase());
+        return (
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <Badge variant={u.isActive ? "success" : "default"}>
+              {u.isActive ? "Active" : "Inactive"}
+            </Badge>
+            {isDemo && (
+              <Badge variant="info">
+                Demo
+              </Badge>
+            )}
+          </div>
+        );
+      },
     },
     {
       header: "Actions",
       key: "actions",
-      render: (u) => (
-        <Button
-          variant="outline"
-          disabled={togglingId === u._id}
-          onClick={() => handleToggleStatus(u)}
-          className="text-xs py-1 px-3"
-        >
-          {togglingId === u._id
-            ? "Updating…"
-            : u.isActive
-            ? "Deactivate"
-            : "Activate"}
-        </Button>
-      ),
+      render: (u) => {
+        const isDemo = DEMO_EMAILS.includes(u.email?.toLowerCase());
+        if (isDemo) {
+          return (
+            <span className="text-xs text-slate-400 font-medium px-2 py-1 bg-slate-100 rounded border border-slate-200">
+              Demo Protected
+            </span>
+          );
+        }
+        return (
+          <Button
+            variant="outline"
+            disabled={togglingId === u._id}
+            onClick={() => handleToggleStatus(u)}
+            className="text-xs py-1 px-3"
+          >
+            {togglingId === u._id
+              ? "Updating…"
+              : u.isActive
+              ? "Deactivate"
+              : "Activate"}
+          </Button>
+        );
+      },
     },
   ];
 

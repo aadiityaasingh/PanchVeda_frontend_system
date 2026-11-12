@@ -16,6 +16,14 @@ import { useAuth } from "../../context/AuthContext";
 import { apiError, formatCurrency } from "../../utils/formatters";
 import { FaHeartbeat, FaEdit, FaTrashAlt, FaPlus } from "react-icons/fa";
 
+const CORE_CLASSICAL_THERAPIES = [
+  "Vamana Therapy",
+  "Virechana Therapy",
+  "Basti Therapy",
+  "Nasya Therapy",
+  "Raktamokshana Therapy"
+];
+
 const TherapyList = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -132,11 +140,21 @@ const TherapyList = () => {
     {
       header: "Category",
       key: "category",
-      render: (t) => (
-        <Badge variant="info">
-          {t.category?.toUpperCase()}
-        </Badge>
-      ),
+      render: (t) => {
+        const isCore = CORE_CLASSICAL_THERAPIES.includes(t.name);
+        return (
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <Badge variant="info">
+              {t.category?.toUpperCase()}
+            </Badge>
+            {isCore && (
+              <Badge variant="success">
+                Classical Core
+              </Badge>
+            )}
+          </div>
+        );
+      },
     },
     {
       header: "Standard Duration",
@@ -161,26 +179,38 @@ const TherapyList = () => {
           {
             header: "Actions",
             key: "action",
-            render: (t) => (
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  className="text-xs py-1 px-2.5 flex items-center gap-1"
-                  onClick={() => openEdit(t)}
-                  title="Edit Therapy"
-                >
-                  <FaEdit /> Edit
-                </Button>
-                <Button
-                  variant="danger"
-                  className="text-xs py-1 px-2.5"
-                  onClick={() => handleDelete(t)}
-                  title="Deactivate Therapy"
-                >
-                  <FaTrashAlt />
-                </Button>
-              </div>
-            ),
+            render: (t) => {
+              const isCore = CORE_CLASSICAL_THERAPIES.includes(t.name);
+              return (
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    className="text-xs py-1 px-2.5 flex items-center gap-1"
+                    onClick={() => openEdit(t)}
+                    title="Edit Therapy"
+                  >
+                    <FaEdit /> Edit
+                  </Button>
+                  {isCore ? (
+                    <span
+                      title="Classical Panchakarma core therapies cannot be deactivated in demo mode"
+                      className="text-xs text-slate-400 font-medium px-2 py-1 bg-slate-100 rounded border border-slate-200 cursor-not-allowed"
+                    >
+                      Core Protected
+                    </span>
+                  ) : (
+                    <Button
+                      variant="danger"
+                      className="text-xs py-1 px-2.5"
+                      onClick={() => handleDelete(t)}
+                      title="Deactivate Therapy"
+                    >
+                      <FaTrashAlt />
+                    </Button>
+                  )}
+                </div>
+              );
+            },
           },
         ]
       : []),
